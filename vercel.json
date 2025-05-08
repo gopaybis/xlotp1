@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "public": "public",
+  "routes": [
+    { "src": "/api/otp", "dest": "/api/otp.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
+  ]
+}
