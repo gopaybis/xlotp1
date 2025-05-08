@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>XL OTP Checker</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f0f0f0; }
+    form { background: white; padding: 1rem; border-radius: 8px; max-width: 400px; }
+    input, button { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
+    pre { background: #eee; padding: 1rem; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Kirim / Verifikasi OTP XL</h2>
+  <form id="otp-form">
+    <label>Nomor HP:</label>
+    <input type="text" name="contact" required>
+    <label>OTP (opsional):</label>
+    <input type="text" name="otp">
+    <button type="submit" name="action" value="send">Kirim OTP</button>
+    <button type="submit" name="action" value="verify">Verifikasi OTP</button>
+  </form>
+  <pre id="result"></pre>
+
+<script>
+document.querySelectorAll('#otp-form button').forEach(btn => {
+  btn.addEventListener('click', async e => {
+    e.preventDefault();
+    const form = document.querySelector('#otp-form');
+    const contact = form.contact.value;
+    const otp = form.otp.value;
+    const action = e.target.value;
+
+    const res = await fetch('/api/otp', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ action, contact, otp })
+    });
+    const text = await res.text();
+    document.querySelector('#result').textContent = text;
+  });
+});
+</script>
+</body>
+</html>
